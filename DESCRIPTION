@@ -1,11 +1,13 @@
 Package: evocr
 Type: Package
-Title: What the Package Does (Title Case)
-Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
+Title: Runs prototypical analysis on free associations / evocations in a tidy way.
+Version: 0.1.1
+Authors@R: person("Gaston", "Becerra", email = "gaston.becerra@gmail.com",
+  role = c("aut", "cre"),
+  comment = c(ORCID = "0000-0001-9432-8848"))
+Maintainer: Gaston Becerra <gaston.becerra@gmail.com>
 Description: More about what it does (maybe more than one line)
     Use four spaces when indenting paragraphs within the Description.
-License: What license is it under?
+License: GPL-3
 Encoding: UTF-8
 LazyData: true
