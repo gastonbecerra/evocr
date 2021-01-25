@@ -5,7 +5,7 @@ prototypical_analysis <- function(x,
                                   min_threshold = 2,
                                   order_cut_off = "mean",
                                   freq_cut_off = "mean",
-                                  valoracion ) {
+                                  valoracion) {
 
   # x, terms y order son la base
   # terms y order defaults to col1 and col2
