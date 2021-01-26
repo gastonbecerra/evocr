@@ -1,26 +1,23 @@
 
 prototypical_analysis <- function(x,
-                                  terms,
-                                  order,
+                                  terms = "",
+                                  order = "",
                                   min_threshold = 2,
                                   order_cut_off = "mean",
                                   freq_cut_off = "mean",
-                                  valoracion) {
+                                  summarize_extra = list(),
+                                  verbose = FALSE) {
 
-  # x, terms y order son la base
-  # terms y order defaults to col1 and col2
-  # otros, como valoracion, deberian venir con una funcion de agregación, mean por default
-  # cortes hay que darlos por funcion o por numero: mean, median, threshold, zipf, half1st
-  # min_threshold?
-  # freq-dist se tiene que poder obviar
+  # x es la base
 
   stopifnot(is.data.frame(x))
-  stopifnot(is.character(terms))
-  stopifnot(is.numeric(min_threshold))
+
+  # 2do: terms y order defaults to col1 and col2
+
+  # stopifnot(is.character(terms))
 
   terms_column <- enquo(arg = terms)
   order_column <- enquo(arg = order)
-  valor_column <- enquo(arg = valoracion)
 
   # frequency x rank table
 
@@ -29,16 +26,37 @@ prototypical_analysis <- function(x,
     summarise(
       freq = n(), # frecuencia
       rank = mean(!!order_column), # media de order de evocacion
-      assessm = mean(!!valor_column), # media de valoracion
       .groups = "drop_last"
     )
 
   # le calculamos una frecuencia minima
-  # otra opcion es hacer los calculos sobre el corpus no cortado
+  # como puedo hacer sin limite? e.g., min_threshold = 0?
+
+  stopifnot(is.numeric(min_threshold))
 
   freq_x_rank <- freq_x_rank %>%
     group_by(!!terms_column) %>%
     filter(freq >= min_threshold)
+
+
+
+  # otros, como valoracion, deberian venir con una funcion de agregación, mean por default
+
+  stopifnot(is.list(summarize_extra))
+
+  if (length(summarize_extra) > 0) {
+    for (i in 1:length(summarize_extra)) {
+      stopifnot(is.vector(summarize_extra[[i]]))
+      stopifnot(length(summarize_extra[[i]])==2)
+    }
+  }
+
+
+  # cortes hay que darlos por funcion o por numero: mean, median, threshold, zipf, half1st
+
+
+
+  # valor_column <- enquo(arg = valoracion)
 
   # modo prototypical de iramuteq
   # x <- freq_x_rank %>%
